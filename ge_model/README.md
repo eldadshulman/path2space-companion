@@ -31,15 +31,17 @@ pip install -e .
 ### SPAMS install troubleshooting
 
 SPAMS (used for Macenko stain normalization) can be finicky to install. If
-`conda env create` fails on the SPAMS step, try installing it explicitly
-from conda-forge after the env is created:
+`conda env create` fails on the SPAMS step, install it explicitly from
+conda-forge after the env is created:
 
 ```bash
-conda activate path2space-companion
-conda install -c conda-forge python-spams
-# or, if the conda-forge package doesn't resolve on your platform:
-pip install spams-bin
+conda install -n path2space-companion -c conda-forge python-spams
 ```
+
+On systems without conda, build dependencies (BLAS, LAPACK, a C++ compiler)
+are required and macOS in particular often needs `brew install openblas`
+first. As a last resort, `pip install spams-bin` provides a prebuilt wheel
+on Linux.
 
 Verify with `python -c "import spams; print(spams.__file__)"`.
 
