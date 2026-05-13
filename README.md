@@ -1,7 +1,7 @@
 # Path2Space — companion code
 
 [![CI](https://github.com/eldadshulman/path2space-companion/actions/workflows/ci.yml/badge.svg)](https://github.com/eldadshulman/path2space-companion/actions/workflows/ci.yml)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14729337.svg)](https://doi.org/10.5281/zenodo.14729337)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20172521.svg)](https://doi.org/10.5281/zenodo.20172521)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Companion code for:
@@ -25,20 +25,22 @@ own.
 Future components (deconvolution, cluster identity, SPAND, …) will be added
 as additional sibling folders.
 
-## Bundled data, weights, and example outputs
+## Citation and archives
 
-Trained weights, tutorial data, and example predictions are available on
-Zenodo:
+If you use any code or model in this repository, please cite the paper:
 
-**https://doi.org/10.5281/zenodo.14729337**
+> Shulman, E.D., et al. (2026). AI-predicted spatial transcriptomics unlocks breast cancer biomarkers from pathology. *Cell*. [doi:10.1016/j.cell.2026.04.023](https://doi.org/10.1016/j.cell.2026.04.023)
 
-Each component's README explains how to drop those artifacts into its
-expected layout (typically `<component>/weights/`).
+A machine-readable citation is also available in [`CITATION.cff`](./CITATION.cff).
 
-## Citation
+### Related Zenodo records
 
-If you use any code or model in this repository, please cite the paper —
-see [`CITATION.cff`](CITATION.cff).
+| Record | DOI | Contents |
+|---|---|---|
+| **This repository (versioned code releases)** | [10.5281/zenodo.20172521](https://doi.org/10.5281/zenodo.20172521) | Citable snapshot of the companion code. Updated automatically on each GitHub release. Cite this for the code. |
+| **Original training scripts and bundled data (Jan 2025 snapshot)** | [10.5281/zenodo.14729337](https://doi.org/10.5281/zenodo.14729337) | The training-era codebase, tutorial input data, example outputs, and trained weights (~4 GB). Use this to obtain the pretrained weights referenced by `ge_model/`. |
+
+Trained weights and tutorial data referenced by the `ge_model/` component live in the second Zenodo record above; see [`ge_model/README.md`](./ge_model/README.md) for the expected layout under `ge_model/weights/`.
 
 ## License
 

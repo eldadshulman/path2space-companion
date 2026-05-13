@@ -2,6 +2,10 @@ cff-version: 1.2.0
 message: "If you use Path2Space, please cite the following paper:"
 title: "AI-predicted spatial transcriptomics unlocks breast cancer biomarkers from pathology"
 type: software
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.20172521
+    description: "Zenodo archive of this repository (latest version)."
 authors:
   - family-names: Shulman
     given-names: "Eldad D."
