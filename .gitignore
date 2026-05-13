@@ -1,0 +1,44 @@
+# Model weights and other large artifacts — never commit. Distribute via
+# Zenodo / GitHub releases instead. Applies to every component subfolder.
+**/weights/
+
+# Python
+**/__pycache__/
+*.py[cod]
+*$py.class
+**/*.egg-info/
+**/*.egg
+build/
+dist/
+.eggs/
+**/.eggs/
+
+# Jupyter
+**/.ipynb_checkpoints/
+
+# Pytest / mypy / coverage caches
+**/.pytest_cache/
+**/.mypy_cache/
+**/.tox/
+.coverage
+**/.coverage
+htmlcov/
+**/htmlcov/
+
+# Virtualenvs
+.venv/
+venv/
+env/
+ENV/
+
+# Editor / OS junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local sandboxes / scratch
+/tmp/
+**/sandbox/

@@ -1,0 +1,153 @@
+cff-version: 1.2.0
+message: "If you use Path2Space, please cite the following paper:"
+title: "AI-predicted spatial transcriptomics unlocks breast cancer biomarkers from pathology"
+type: software
+authors:
+  - family-names: Shulman
+    given-names: "Eldad D."
+    orcid: "https://orcid.org/0000-0002-1859-8819"
+  - family-names: Campagnolo
+    given-names: "Emma M."
+  - family-names: Lodha
+    given-names: Roshan
+  - family-names: Chung
+    given-names: Youngmin
+  - family-names: Stemmer
+    given-names: Amos
+  - family-names: Cantore
+    given-names: Thomas
+  - family-names: Ru
+    given-names: Beibei
+  - family-names: Chang
+    given-names: Tian-Gen
+  - family-names: Biswas
+    given-names: Sumona
+  - family-names: Dhruba
+    given-names: "Saugato Rahman"
+  - family-names: Patiyal
+    given-names: Sumeet
+  - family-names: Patkar
+    given-names: Sushant
+  - family-names: Wang
+    given-names: Andrew
+  - family-names: Barman
+    given-names: "Ranjan K."
+  - family-names: Wang
+    given-names: Chuhan
+  - family-names: Paul
+    given-names: Rohit
+  - family-names: Kalisetty
+    given-names: "Sarath Chandra"
+  - family-names: Hu
+    given-names: Tom
+  - family-names: Nasrallah
+    given-names: "MacLean P."
+  - family-names: Patrick
+    given-names: Ellis
+  - family-names: Yang
+    given-names: Jean
+  - family-names: Yuan
+    given-names: Yuan
+  - family-names: Sargsyan
+    given-names: Karine
+  - family-names: Plotkin
+    given-names: Amy
+  - family-names: Rajagopal
+    given-names: "Padma Sheila"
+  - family-names: Sammut
+    given-names: Stephen-John
+  - family-names: Lipkowitz
+    given-names: Stanley
+  - family-names: Jiang
+    given-names: Peng
+  - family-names: Caldas
+    given-names: Carlos
+  - family-names: Knott
+    given-names: "Simon R.V."
+  - family-names: Aldape
+    given-names: Kenneth
+  - family-names: Lee
+    given-names: "Joo Sang"
+  - family-names: Hoang
+    given-names: Danh-Tai
+  - family-names: Ruppin
+    given-names: Eytan
+preferred-citation:
+  type: article
+  title: "AI-predicted spatial transcriptomics unlocks breast cancer biomarkers from pathology"
+  journal: Cell
+  year: 2026
+  publisher:
+    name: Elsevier
+  doi: 10.1016/j.cell.2026.04.023
+  url: "https://doi.org/10.1016/j.cell.2026.04.023"
+  authors:
+    - family-names: Shulman
+      given-names: "Eldad D."
+      orcid: "https://orcid.org/0000-0002-1859-8819"
+    - family-names: Campagnolo
+      given-names: "Emma M."
+    - family-names: Lodha
+      given-names: Roshan
+    - family-names: Chung
+      given-names: Youngmin
+    - family-names: Stemmer
+      given-names: Amos
+    - family-names: Cantore
+      given-names: Thomas
+    - family-names: Ru
+      given-names: Beibei
+    - family-names: Chang
+      given-names: Tian-Gen
+    - family-names: Biswas
+      given-names: Sumona
+    - family-names: Dhruba
+      given-names: "Saugato Rahman"
+    - family-names: Patiyal
+      given-names: Sumeet
+    - family-names: Patkar
+      given-names: Sushant
+    - family-names: Wang
+      given-names: Andrew
+    - family-names: Barman
+      given-names: "Ranjan K."
+    - family-names: Wang
+      given-names: Chuhan
+    - family-names: Paul
+      given-names: Rohit
+    - family-names: Kalisetty
+      given-names: "Sarath Chandra"
+    - family-names: Hu
+      given-names: Tom
+    - family-names: Nasrallah
+      given-names: "MacLean P."
+    - family-names: Patrick
+      given-names: Ellis
+    - family-names: Yang
+      given-names: Jean
+    - family-names: Yuan
+      given-names: Yuan
+    - family-names: Sargsyan
+      given-names: Karine
+    - family-names: Plotkin
+      given-names: Amy
+    - family-names: Rajagopal
+      given-names: "Padma Sheila"
+    - family-names: Sammut
+      given-names: Stephen-John
+    - family-names: Lipkowitz
+      given-names: Stanley
+    - family-names: Jiang
+      given-names: Peng
+    - family-names: Caldas
+      given-names: Carlos
+    - family-names: Knott
+      given-names: "Simon R.V."
+    - family-names: Aldape
+      given-names: Kenneth
+    - family-names: Lee
+      given-names: "Joo Sang"
+    - family-names: Hoang
+      given-names: Danh-Tai
+    - family-names: Ruppin
+      given-names: Eytan

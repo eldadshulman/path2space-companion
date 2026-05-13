@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Discovers every top-level subfolder that contains a `tests/` directory and
+# runs its smoke tests. Add a new component as a sibling folder with
+# `tests/` and it picks up automatically — no edit to this workflow needed.
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      components: ${{ steps.scan.outputs.components }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: scan
+        name: Find components with tests/
+        run: |
+          set -euo pipefail
+          # JSON array of every top-level dir that has a tests/ subdir, skipping
+          # dot-dirs and __pycache__.
+          components=$(find . -mindepth 2 -maxdepth 2 -type d -name tests \
+                       -not -path './.*' \
+                       | sed -E 's|^\./([^/]+)/tests$|\1|' \
+                       | sort -u \
+                       | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "components=$components" >> "$GITHUB_OUTPUT"
+          echo "Discovered components: $components"
+
+  test:
+    needs: discover
+    if: ${{ needs.discover.outputs.components != '[]' && needs.discover.outputs.components != '' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        component: ${{ fromJSON(needs.discover.outputs.components) }}
+    defaults:
+      run:
+        working-directory: ./${{ matrix.component }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+
+      - name: Install component
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          # Install the component if it exposes a setup.py / pyproject.toml.
+          if [ -f setup.py ] || [ -f pyproject.toml ]; then
+            pip install -e .
+          fi
+          pip install pytest
+
+      - name: Install test-only deps
+        run: |
+          # Heavy deps (torch, openslide-python, spams-bin, …) are pinned in
+          # environment.yml for the full pipeline but aren't all needed for
+          # smoke tests. Install only what the smoke tests actually import.
+          pip install numpy pandas scipy scikit-image opencv-python-headless Pillow torch torchvision timm
+
+      - name: Run smoke tests
+        run: pytest tests/ -v
