@@ -21,8 +21,8 @@ jobs:
         name: Find components with tests/
         run: |
           set -euo pipefail
-          # JSON array of every top-level dir that has a tests/ subdir, skipping
-          # dot-dirs and __pycache__.
+          # JSON array of every top-level dir that has a tests/ subdir,
+          # skipping dot-dirs (e.g. .github).
           components=$(find . -mindepth 2 -maxdepth 2 -type d -name tests \
                        -not -path './.*' \
                        | sed -E 's|^\./([^/]+)/tests$|\1|' \
@@ -50,25 +50,20 @@ jobs:
         with:
           python-version: "3.10"
           cache: pip
+          cache-dependency-path: "**/requirements-ci.txt"
 
-      - name: Install component
+      - name: Install component (smoke-test subset)
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
+          if [ -f requirements-ci.txt ]; then
+            pip install -r requirements-ci.txt
           fi
-          # Install the component if it exposes a setup.py / pyproject.toml.
+          # Register the package without re-installing the (heavy) deps from
+          # setup.py — those are pinned in environment.yml for the full
+          # pipeline but unnecessary for smoke tests.
           if [ -f setup.py ] || [ -f pyproject.toml ]; then
-            pip install -e .
+            pip install -e . --no-deps
           fi
-          pip install pytest
-
-      - name: Install test-only deps
-        run: |
-          # Heavy deps (torch, openslide-python, spams-bin, …) are pinned in
-          # environment.yml for the full pipeline but aren't all needed for
-          # smoke tests. Install only what the smoke tests actually import.
-          pip install numpy pandas scipy scikit-image opencv-python-headless Pillow torch torchvision timm
 
       - name: Run smoke tests
         run: pytest tests/ -v

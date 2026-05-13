@@ -1,0 +1,3 @@
+# Treat notebooks as vendored so GitHub Linguist classifies the repo as
+# Python rather than 90%+ Jupyter Notebook. They still render in the GitHub UI.
+*.ipynb linguist-vendored

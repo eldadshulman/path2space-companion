@@ -1,0 +1,23 @@
+# Minimal dependency set for the smoke-test suite in CI.
+#
+# This is NOT the production environment — for that, use environment.yml
+# (pinned to match the paper's training/inference env). CI installs only
+# what the smoke tests in tests/test_smoke.py actually need to import and
+# pass, on a CPU-only Linux runner.
+#
+# CPU-only torch + torchvision are pulled from the PyTorch CPU index to
+# avoid downloading the multi-GB CUDA wheels.
+
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+numpy
+pandas
+scipy
+scikit-image
+Pillow
+opencv-python-headless
+timm
+torch
+torchvision
+spams-bin
+pytest

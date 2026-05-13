@@ -28,6 +28,21 @@ conda activate path2space-companion
 pip install -e .
 ```
 
+### SPAMS install troubleshooting
+
+SPAMS (used for Macenko stain normalization) can be finicky to install. If
+`conda env create` fails on the SPAMS step, try installing it explicitly
+from conda-forge after the env is created:
+
+```bash
+conda activate path2space-companion
+conda install -c conda-forge python-spams
+# or, if the conda-forge package doesn't resolve on your platform:
+pip install spams-bin
+```
+
+Verify with `python -c "import spams; print(spams.__file__)"`.
+
 ### Get the weights
 
 The trained weights are too large for git (~6.7 GB total) and live outside
@@ -92,23 +107,27 @@ the public HEST NCBI776 sample and reports:
 
 | metric | value |
 |---|---|
-| common spots                  | 4296 / 4295 |
+| paper spots                   | 4295 |
+| companion spots               | 4296 |
+| common spots (compared)       | 4295 |
 | max abs diff (any gene)       | 0.52 |
 | mean abs diff (across genes)  | 7.4e-3 |
 | **per-gene Pearson r (median)** | **0.977** |
 | per-gene r > 0.99             | 0.2% |
+
+The companion accepts one extra spot relative to the paper's filter (likely a
+borderline tile near the edge-magnitude threshold); the 4295 common spots
+are compared on the gene matrix.
 
 The remaining ~2% drift is residual SPAMS stain-matrix noise and float
 reduction order; the predictions are quantitatively faithful to the paper at
 a per-gene level. (Bit-for-bit would require pinning the exact SPAMS revision
 and processing each tile individually rather than in batches.)
 
-### Reference scripts
+### Reference implementations
 
-- `Cell_revisions/prediction_pipline/1main_tcga.py` — grid mode
-- `Cell_revisions/prediction_pipline/1main_enable_medicine_brca.py` — spots
-- `Cell_revisions/st_validation/feature_extraction/1main_MultiFMExtract.py` — the
-  script that generated the HEST predictions in `st_preds/`
+The reference implementations these entry points were refactored from are
+maintained internally by the Ruppin Lab and are available on request.
 
 ### What is frozen (do not modify)
 
@@ -134,16 +153,14 @@ viz helpers) has been stripped; everything else is verbatim.
   inside the companion. No external paths at inference time.
 - `SlideReader` unifies OpenSlide and skimage with an OpenSlide-first /
   skimage-fallback policy.
-- The reference spots-mode script does `slide_img[pixel_x:pixel_x+s, pixel_y:pixel_y+s]`,
-  which treats `pixel_x` as a row index — opposite of the standard Visium
-  convention. **The companion uses the standard convention** (`pixel_x = column`,
-  `pixel_y = row`). Spots-mode outputs will therefore not match the
-  reference at the pixel level. The parity contract is `1main_tcga.py` (grid
-  mode) per the task spec.
-- The reference spots-mode script has a blue-background→white preprocessing
-  step (`bg_blue = [220, 240, 255]`, threshold 70) specific to the
-  enable_medicine scanner. **This is not part of the canonical pipeline and
-  has been dropped.**
+- The reference spots-mode script's tile slicing treats `pixel_x` as a row
+  index — opposite of the standard Visium convention. **The companion uses
+  the standard convention** (`pixel_x = column`, `pixel_y = row`). Spots-mode
+  outputs will therefore not match the reference at the pixel level. The
+  parity contract is the grid-mode reference.
+- A scanner-specific blue-background→white preprocessing step
+  (`bg_blue = [220, 240, 255]`, threshold 70) used by one of the reference
+  scripts is **not part of the canonical pipeline** and has been dropped.
 - `EDGE_FRACTION_THRESHOLD` defaults: 0.5 (grid) and 0.2 (spots), with the
   spots-mode value overridable in the 0.2–0.9 range via `--edge-fraction`.
 - The MLP forward pass keeps per-tile predictions (the reference has the
@@ -190,7 +207,7 @@ ge_model/
 │   ├── copy_weights.sh      # one-time: populate weights/
 │   ├── run_grid.py          # CLI for grid mode
 │   ├── run_spots.py         # CLI for spots mode
-│   └── verify_parity.py     # companion vs 1main_tcga.py
+│   └── verify_parity.py     # companion vs the internal grid-mode reference
 ├── weights/                 # populated by copy_weights.sh (gitignored)
 │   ├── ctranspath.pth                                (~107 MB)
 │   ├── mlp_ensemble/result_{0..21}_{0..6}_0/model_trained.pth   (154 files, ~6.6 GB)
