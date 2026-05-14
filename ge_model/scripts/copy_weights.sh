@@ -70,19 +70,23 @@ zenodo_fetch() {
     cd "${WEIGHTS_DIR}"
 
     echo "[Zenodo 1/4] ctranspath.pth"
-    [[ -f ctranspath.pth ]] || wget -c "${ZENODO_BASE}/ctranspath.pth"
+    [[ -f ctranspath.pth ]] || wget -q -c "${ZENODO_BASE}/ctranspath.pth"
 
     echo "[Zenodo 2/4] genes.txt"
-    [[ -f genes.txt ]] || wget -c "${ZENODO_BASE}/genes.txt"
+    [[ -f genes.txt ]] || wget -q -c "${ZENODO_BASE}/genes.txt"
 
-    echo "[Zenodo 3/4] mlp_ensemble.tar.gz (~6.1 GB)"
+    echo "[Zenodo 3/4] mlp_ensemble.tar.gz (~6.1 GB, may take a few minutes)"
     if [[ "${n_have}" -ne "${n_expected}" ]]; then
-        [[ -f mlp_ensemble.tar.gz ]] || wget -c "${ZENODO_BASE}/mlp_ensemble.tar.gz"
+        [[ -f mlp_ensemble.tar.gz ]] || wget -q -c "${ZENODO_BASE}/mlp_ensemble.tar.gz"
     fi
 
-    echo "[Zenodo 4/4] MD5SUMS.txt + verify"
+    echo "[Zenodo 4/4] verifying checksums"
     wget -q -O MD5SUMS.txt "${ZENODO_BASE}/MD5SUMS.txt"
-    md5sum -c MD5SUMS.txt
+    if ! md5sum -c MD5SUMS.txt >/dev/null; then
+        echo "  MD5 verification failed:" >&2
+        md5sum -c MD5SUMS.txt >&2 || true
+        exit 1
+    fi
 
     if [[ -f mlp_ensemble.tar.gz ]]; then
         echo "[Zenodo] extracting mlp_ensemble.tar.gz"
@@ -99,7 +103,7 @@ zenodo_fetch() {
 internal_copy() {
     echo "[1/3] ctranspath.pth"
     if [[ ! -f "${WEIGHTS_DIR}/ctranspath.pth" ]]; then
-        cp -v "${SRC_CTRANS}" "${WEIGHTS_DIR}/ctranspath.pth"
+        cp "${SRC_CTRANS}" "${WEIGHTS_DIR}/ctranspath.pth"
     else
         echo "  already present, skipping"
     fi
@@ -129,7 +133,7 @@ internal_copy() {
 
     echo "[3/3] gene_file.pkl + genes.txt"
     if [[ ! -f "${WEIGHTS_DIR}/gene_file.pkl" ]]; then
-        cp -v "${SRC_GENES}" "${WEIGHTS_DIR}/gene_file.pkl"
+        cp "${SRC_GENES}" "${WEIGHTS_DIR}/gene_file.pkl"
     fi
     if [[ ! -f "${WEIGHTS_DIR}/genes.txt" ]]; then
         python - <<PYEOF
