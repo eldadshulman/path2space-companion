@@ -38,9 +38,10 @@ A machine-readable citation is also available in [`CITATION.cff`](./CITATION.cff
 | Record | DOI | Contents |
 |---|---|---|
 | **This repository (versioned code releases)** | [10.5281/zenodo.20172521](https://doi.org/10.5281/zenodo.20172521) | Citable snapshot of the companion code. Updated automatically on each GitHub release. Cite this for the code. |
-| **Original training scripts and bundled data (Jan 2025 snapshot)** | [10.5281/zenodo.14729337](https://doi.org/10.5281/zenodo.14729337) | The training-era codebase, tutorial input data, example outputs, and trained weights (~4 GB). Use this to obtain the pretrained weights referenced by `ge_model/`. |
+| **Trained model weights** | [10.5281/zenodo.20174301](https://doi.org/10.5281/zenodo.20174301) | Trained model weights (154-checkpoint MLP ensemble + CTransPath). Required to run inference on new data. |
+| **Original training scripts and bundled data (Jan 2025 snapshot)** | [10.5281/zenodo.14729337](https://doi.org/10.5281/zenodo.14729337) | The training-era codebase, tutorial input data, example outputs, and trained weights (~4 GB). |
 
-Trained weights and tutorial data referenced by the `ge_model/` component live in the second Zenodo record above; see [`ge_model/README.md`](./ge_model/README.md) for the expected layout under `ge_model/weights/`.
+The `ge_model/` component fetches the trained weights from the weights record above; see [`ge_model/README.md`](./ge_model/README.md) for the expected layout under `ge_model/weights/`.
 
 ## License
 

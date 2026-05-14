@@ -47,20 +47,34 @@ Verify with `python -c "import spams; print(spams.__file__)"`.
 
 ### Get the weights
 
-The trained weights are too large for git (~6.7 GB total) and live outside
-this repo. You have three options:
+The trained weights are too large for git (~6.7 GB total) and live on
+Zenodo. You have three options:
 
-1. **Direct download** (recommended for end users) — download the
-   `ge_model_weights.tar.gz` artifact from the
-   [Zenodo deposit](https://doi.org/10.5281/zenodo.14729337) and unpack it
-   inside `ge_model/` so the tree looks like
-   `ge_model/weights/{ctranspath.pth, mlp_ensemble/, genes.txt}`.
-2. **Copy from the source** (Ruppin Lab members only) — run
+1. **Zenodo download (default for end users)** — the helper script handles
+   download + MD5 verification + extraction:
+   ```bash
+   bash scripts/copy_weights.sh        # auto-picks Zenodo when /data/Ruppin_ST/ isn't reachable
+   # or, to force Zenodo even on the lab cluster:
+   PATH2SPACE_USE_ZENODO=1 bash scripts/copy_weights.sh
+   ```
+   The script fetches four files from
+   [Zenodo record 20174301](https://doi.org/10.5281/zenodo.20174301):
+   - `ctranspath.pth` (≈107 MB) — pretrained CTransPath feature extractor.
+   - `mlp_ensemble.tar.gz` (≈6.1 GB) — the 22 × 7 = 154 MLP ensemble
+     (extracted into `weights/mlp_ensemble/result_{ik}_{il}_0/model_trained.pth`).
+   - `genes.txt` — gene list defining the MLP output order.
+   - `MD5SUMS.txt` — used to verify the other three.
+
+   If you prefer to download manually, pull the same four files from
+   [zenodo.org/records/20174301](https://zenodo.org/records/20174301) and
+   place them under `ge_model/weights/` (extract the tarball in place).
+2. **Lab-internal copy** (Ruppin Lab members only) — run
    `bash scripts/copy_weights.sh` from a host with read access to
-   `/data/Ruppin_ST/`. This will copy ctranspath.pth + 154 MLP checkpoints + gene
-   list into `weights/`.
+   `/data/Ruppin_ST/`. The script auto-detects this case and skips Zenodo.
 3. **Custom paths** — set env vars before running the copy script:
-   `PATH2SPACE_CTRANSPATH_SRC`, `PATH2SPACE_ENSEMBLE_SRC`, `PATH2SPACE_GENES_SRC`.
+   `PATH2SPACE_CTRANSPATH_SRC`, `PATH2SPACE_ENSEMBLE_SRC`,
+   `PATH2SPACE_GENES_SRC` (internal), or `PATH2SPACE_ZENODO_RECORD` to point
+   at a different Zenodo record.
 
 ### Run
 
