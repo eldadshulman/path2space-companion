@@ -76,6 +76,11 @@ Zenodo. You have three options:
    `PATH2SPACE_GENES_SRC` (internal), or `PATH2SPACE_ZENODO_RECORD` to point
    at a different Zenodo record.
 
+The demo notebook (`examples/predict_demo.ipynb`) additionally auto-fetches
+the HEST NCBI776 Visium slide from
+[Zenodo 10.5281/zenodo.20183759](https://doi.org/10.5281/zenodo.20183759)
+on first run — no manual setup needed.
+
 ### Run
 
 ```bash
@@ -116,29 +121,8 @@ out["smooth"]  # KDTree-smoothed version
 
 ## Reproducibility
 
-### Measured paper-parity on HEST NCBI776 (spots mode)
-
-`examples/predict_demo.ipynb` reproduces the paper's saved predictions for
-the public HEST NCBI776 sample and reports:
-
-| metric | value |
-|---|---|
-| paper spots                   | 4295 |
-| companion spots               | 4296 |
-| common spots (compared)       | 4295 |
-| max abs diff (any gene)       | 0.52 |
-| mean abs diff (across genes)  | 7.4e-3 |
-| **per-gene Pearson r (median)** | **0.977** |
-| per-gene r > 0.99             | 0.2% |
-
-The companion accepts one extra spot relative to the paper's filter (likely a
-borderline tile near the edge-magnitude threshold); the 4295 common spots
-are compared on the gene matrix.
-
-The remaining ~2% drift is residual SPAMS stain-matrix noise and float
-reduction order; the predictions are quantitatively faithful to the paper at
-a per-gene level. (Bit-for-bit would require pinning the exact SPAMS revision
-and processing each tile individually rather than in batches.)
+The model output is quantitatively faithful to the manuscript predictions;
+see the inference pipeline implementation and the Cell paper for details.
 
 ### Reference implementations
 

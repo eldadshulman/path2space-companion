@@ -2,6 +2,9 @@
 # Zenodo / GitHub releases instead. Applies to every component subfolder.
 **/weights/
 
+# Demo data fetched at notebook runtime from Zenodo (e.g. HEST NCBI776).
+**/examples/hest_data/
+
 # Python
 **/__pycache__/
 *.py[cod]
